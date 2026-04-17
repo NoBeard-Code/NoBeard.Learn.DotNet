@@ -4,78 +4,156 @@
     {
         static void Main(string[] args)
         {
-            // value types:
+            byte ocjena = 4;
 
-            string ime = "Pero";
+            if (ocjena == 1)
+            {
+                Console.WriteLine("Ocjena nije zadovoljavajuća.");
+            }
+            else if (ocjena == 2)
+            {
+                Console.WriteLine("Ocjena je dovoljan.");
+            }
+            else if (ocjena == 3)
+            {
+                Console.WriteLine("Ocjena je dobar.");
+            }
+            else if (ocjena == 4)
+            {
+                Console.WriteLine("Ocjena je vrlo dobar.");
+            }
+            else // ocjena == 5
+            {
+                Console.WriteLine("Ocjena je odličan.");
+            }
 
-            Console.WriteLine("Pozdrav, " + ime + "!");
-            Console.WriteLine($"Pozdrav, {ime}!");
-            Console.WriteLine("Pozdrav, {0}!", ime);
+            double prosjek = 2.5;
 
-            Console.Write("Pozdrav, ");
-            Console.Write(ime);
-            Console.WriteLine("!");
+            if (prosjek >= 2.5 && prosjek < 3.5)
+            {
+                // ocjena 3
+                if (prosjek >= 2.5 && prosjek < 3.0)
+                {
+                    Console.WriteLine("Nešto niža trojka.");
 
-            Console.Write("Pozdrav, " + ime + "!\n");
+                    if (prosjek == 2.5)
+                    {
+                        Console.WriteLine("Svaka čast!");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Jaka trojka.");
+                }
+            }
 
-            int godine = 25;
+            if (prosjek == 2.5)
+            {
+                Console.WriteLine("Svaka čast!");
+            }
+            else if (prosjek < 3.0)
+            {
+                Console.WriteLine("Nešto niža trojka.");
+            }
+            else if (prosjek < 3.5)
+            {
+                Console.WriteLine("Jaka trojka.");
+            }
 
-            Console.WriteLine(godine);
+            bool odlikas;
 
-            Console.WriteLine("Pozdrav, {0} sa {1} godina", ime, godine);
+            // normalni oblik
 
-            // conversions:
+            if (prosjek >= 4.5)
+            {
+                odlikas = true;
+            }
+            else
+            {
+                odlikas = false;
+            }
 
-            var a = "100";
-            var b = 200;
-            var c = Int64.Parse(a) + b;
-            var d = Convert.ToInt16(b);
+            // kondenzirani oblik
 
-            var e = Int64.TryParse("abc", out var f);
+            if (prosjek >= 4.5)
+                odlikas = true;
+            else
+                odlikas = false;
 
-            var unos = Console.ReadLine();
-            double rezultat = Convert.ToDouble(unos);
+            if (odlikas)
+                odlikas = true;
 
-            var rezultat2 = Convert.ToDouble(Console.ReadLine());
+            // jednolinijski oblik
 
-            Console.WriteLine(rezultat2 * 1.25);
+            if (odlikas) odlikas = true;
 
-            // numeric & boolean:
+            odlikas = (prosjek >= 4.5) ? true : false;
 
-            //byte ocjene = 5;
-            //byte ocjena2 = -4;
+            odlikas = (prosjek >= 4.5);
 
-            //short ocjene3 = -255;
-            //ushort ocjene4 = -255;
+            string rezultat = (prosjek >= 4.5) ? "Odlikaš" : "Nije odlikaš";
 
-            //int rgb = 0x343433;
-            //byte rgb2 = 0b_0010_1111;
+            var x = (1 == 2) && (1 > 3) ? (2 == 3) ? (23) : 2323 : 23;
 
-            bool programiranjeJeZabavno = true;
-            bool vaniPadaKisa = false;
+            // optimirano
 
-            Console.WriteLine(programiranjeJeZabavno && vaniPadaKisa);
-            Console.WriteLine(programiranjeJeZabavno || vaniPadaKisa);
-            Console.WriteLine(vaniPadaKisa);
-            Console.WriteLine(!vaniPadaKisa);
+            switch (ocjena)
+            {
+                case 1:
+                    Console.WriteLine("Ocjena nije zadovoljavajuća."); break;
+                case 2:
+                    Console.WriteLine("Ocjena je dovoljan."); break;
+                case 3:
+                    Console.WriteLine("Ocjena je dobar."); break;
+                case 4:
+                    Console.WriteLine("Ocjena je vrlo dobar."); break;
+                default:
+                    Console.WriteLine("Ocjena je odličan."); break;
+            }
 
-            //int a = 10;
-            //int b = 20;
+            // new switch expression
 
-            //Console.WriteLine(a < b);
-            //Console.WriteLine(a > b);
-            //Console.WriteLine(a <= b);
-            //Console.WriteLine(a >= b);
-            //Console.WriteLine(a == b);
-            //Console.WriteLine(a != b);
+            string poruka2 = ocjena switch
+            {
+                1 => "Ocjena nije za prolaz!",
+                2 => "Ocjena nije za prolaz!",
+                3 => "Ocjena nije za prolaz!",
+                4 => "Ocjena nije za prolaz!",
+                5 => "Ocjena nije za prolaz!",
+                _ => "Greška kod unosa!!"
+            };
 
-            //Console.WriteLine(a < b && b == 0);
+            // vremenska prognoza:
 
-            Console.WriteLine(ime == "Mato");
-            Console.WriteLine(ime != "Ivica");
+            // ispisati tekst vremena i mogućnosti za kišu:
 
-            string pwd = "";
-            Console.WriteLine(ime == "pero@algebra.hr" && pwd == "pero123");
+            Console.Write("Kakvo je vrijeme? ");
+            string vrijeme = Console.ReadLine(); // oblacno, vedro
+
+            Console.Write("Da li je mogućnost kiše? ");
+            string kisa = Console.ReadLine(); // da/ne
+
+            // priprema
+            bool moguca_kisa = (kisa == "da");
+
+            // obrada
+            if (vrijeme == "oblacno")
+            {
+                Console.Write("Vrijeme je oblačno. ");
+
+                if (moguca_kisa)
+                {
+                    Console.WriteLine("Ponesite kišobran!");
+                }
+                else
+                {
+                    Console.WriteLine("Ali ne brinite, neće biti kiše. ;)");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Vrijeme će biti prekrasno. :)");
+            }
 
             Console.ReadKey();
         }
