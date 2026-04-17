@@ -96,48 +96,12 @@ internal class Program
 
         Connection.Instance.Open();
 
-        var car = new Car();
-        car.Brand = "Ford";
-        car.Model = "Fiesta";
-
-        Console.Clear();
-
-        var car_ = new Car()
-        {
-            Brand = "Fiat",
-            Model = "Doblo",
-            NumberOfDoors = 5
-        };
-
-        Console.WriteLine(car.GetCarInfo());
-
-        var bicycle = new Bicycle()
-        {
-            Brand = "Cube",
-            Model = "Curve",
-            HasBell = true
-        };
-
-        Console.WriteLine(bicycle.GetBicycleInfo());
-
-        var animals = new List<Animal>();
-
-        animals.Add(new Dog() { Name = "Rex" });
-        animals.Add(new Cat() { Name = "Matilda" });
-        animals.Add(new Dog() { Name = "Boo" });
-
-        foreach (var animal in animals)
-        {
-            Console.WriteLine($"{animal.Name} says: {animal.Speak()}");
-        }
-
         var program = new ProgramObrazovanja("ASP.NET Developer", "OL-OASP_DEV_H-02/24");
         program.Polaznici.AddRange(new[] { osoba1, osoba2, osoba1, osoba2, osoba2 });
         program.ListaModula.AddRange(new[] { new Modul(1, "Uvod u C#"), new Modul(2, "Uvod u baze podataka") });
 
         var brojPolaznika = program.Polaznici.Count;
         var zadnjiModul = program.ListaModula.Last();
-
     }
 }
 
