@@ -1,9 +1,43 @@
-﻿namespace NoBeard.Learn.DotNet.ConsoleApp
+﻿using System.Collections;
+
+namespace NoBeard.Learn.DotNet.ConsoleApp
 {
     internal class Program
     {
         static void Main(string[] args)
         {
+            ArrayList kolekcija = new ArrayList();
+            kolekcija.Add(1);
+            kolekcija.Add("Sir");
+            kolekcija.Add(true);
+            kolekcija.Add("Sir");
+            kolekcija.Add("Sir");
+
+            Console.WriteLine(kolekcija[0]);
+            Console.WriteLine(kolekcija[1]);
+            Console.WriteLine(kolekcija[2]);
+
+            Console.WriteLine(kolekcija.Count);
+
+            Console.WriteLine(kolekcija.Contains(1));
+            Console.WriteLine(kolekcija.Contains("Mlijeko"));
+
+            kolekcija.RemoveAt(0);
+            kolekcija.Remove("Sir");
+            kolekcija.Clear();
+
+            if (kolekcija.Contains(150))
+            {
+            }
+
+            // kolekcija.AddRange(kolekcija);
+            //kolekcija.RemoveRange(0, 1);
+
+            // generičke liste
+
+            int[] nizBrojeva = new int[3];
+            ArrayList kolekcijaBrojeva = new ArrayList(); // i drugi tipovi!!
+
             List<int> brojevi = new List<int>(); // samo int-ovi
             brojevi.Add(25);
             brojevi.Add(50);
@@ -31,6 +65,8 @@
             }
             Console.WriteLine(popis);
 
+            //var naopako = namirnice.Reverse();
+
             popis = "";
             for (int j = 4; j >= 0; j--) // (namirnice.Length - 1)
             {
@@ -57,24 +93,6 @@
                     ;
                 }
             }
-
-            int petlja = 0;
-            while (petlja < 10)
-            {
-                Console.WriteLine(petlja);
-                // petlja++;
-
-                if (petlja % 2 == 0)
-                    petlja++;
-                else if (petlja % 2 == 1)
-                    petlja += 2;
-            }
-
-            petlja = 5;
-            do
-            {
-                Console.WriteLine(petlja);
-            } while (petlja < 3);
 
             Console.ReadKey();
         }
