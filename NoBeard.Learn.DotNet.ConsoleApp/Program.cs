@@ -131,6 +131,13 @@ internal class Program
             Console.WriteLine($"{animal.Name} says: {animal.Speak()}");
         }
 
+        var program = new ProgramObrazovanja("ASP.NET Developer", "OL-OASP_DEV_H-02/24");
+        program.Polaznici.AddRange(new[] { osoba1, osoba2, osoba1, osoba2, osoba2 });
+        program.ListaModula.AddRange(new[] { new Modul(1, "Uvod u C#"), new Modul(2, "Uvod u baze podataka") });
+
+        var brojPolaznika = program.Polaznici.Count;
+        var zadnjiModul = program.ListaModula.Last();
+
     }
 }
 

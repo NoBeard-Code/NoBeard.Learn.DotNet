@@ -41,6 +41,8 @@ internal class Osoba
     public static int RedniBroj { get; private set; }
 
     internal List<BankovniRacun> Racuni { get; set; } = []; // = new BankovniRacun();
+    
+    //internal ProgramObrazovanja ProgramObrazovanja { get; set; }
 
     public Osoba()
     {
