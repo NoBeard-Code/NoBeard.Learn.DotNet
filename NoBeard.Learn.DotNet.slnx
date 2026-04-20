@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="NoBeard.Learn.DotNet.ClassLibrary/NoBeard.Learn.DotNet.ClassLibrary.csproj" Id="7122ea2f-52b9-4096-8c77-fb2f00669cf9" />
   <Project Path="NoBeard.Learn.DotNet.ConsoleApp/NoBeard.Learn.DotNet.ConsoleApp.csproj" />
 </Solution>
