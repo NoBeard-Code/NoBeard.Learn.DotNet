@@ -74,5 +74,32 @@ internal class Program
         {
             Console.WriteLine($"{animal.Name} says: {animal.Speak()}");
         }
+        
+        var svastara = new ShuffledArrayList();
+        svastara.Add(true);
+        svastara.Add("Pero");
+        svastara.Add(osoba1);
+        svastara.Add(osoba2);
+        svastara.Add(racun1);
+        svastara.Add(racun2);
+        svastara.Add(car);
+        svastara.Add(bicycle);
+        svastara.AddRange(animals);
+
+        foreach (var clan in svastara)
+        {
+            Console.WriteLine(clan);
+        }
+
+        Console.WriteLine("Shuffling...");
+
+        svastara.Shuffle();
+
+        foreach (var clan in svastara)
+        {
+            Console.WriteLine(clan);
+        }
+        
+
     }
 }
