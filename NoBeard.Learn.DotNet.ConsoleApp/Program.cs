@@ -1,4 +1,5 @@
 ﻿using NoBeard.Learn.DotNet.ClassLibrary.Models;
+using NoBeard.Learn.DotNet.ClassLibrary.Structures;
 
 var outfit = new List<ClothingItem>();
 
@@ -59,3 +60,7 @@ foreach (var item in outfit)
 Console.ForegroundColor = ConsoleColor.Magenta;
 Console.WriteLine($"\nTOTAL PRICE: {total} EUR");
 Console.ResetColor();
+
+var coords = new Coordinates(10.5, 25.0);
+coords.ToString();
+
