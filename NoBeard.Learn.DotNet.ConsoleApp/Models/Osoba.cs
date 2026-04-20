@@ -1,8 +1,6 @@
-﻿using NoBeard.Learn.DotNet.ConsoleApp.Interfaces;
+﻿namespace NoBeard.Learn.DotNet.ConsoleApp.Models;
 
-namespace NoBeard.Learn.DotNet.ConsoleApp.Models;
-
-internal class Osoba : IPrintable
+internal class Osoba
 {
     private string _ime = string.Empty;
     private string _prezime = string.Empty;
@@ -60,11 +58,5 @@ internal class Osoba : IPrintable
     private int IzracunajStarost()
     {
         return (DateTime.Today.Year - _datumRodjenja.Year);
-    }
-
-    public void Print()
-    {
-        Console.WriteLine("Korisnički profil:");
-        Console.WriteLine($"Rbr: {RedniBroj}, puno ime: {PunoIme}");
     }
 }
