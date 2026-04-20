@@ -1,4 +1,6 @@
-﻿using NoBeard.Learn.DotNet.ConsoleApp.Models;
+﻿using NoBeard.Learn.DotNet.ConsoleApp.Interfaces;
+using NoBeard.Learn.DotNet.ConsoleApp.Models;
+using System.Collections;
 
 namespace NoBeard.Learn.DotNet.ConsoleApp;
 
@@ -6,73 +8,52 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        var racun1 = new BankovniRacun();
-        racun1.Kreiraj(1234);
-        racun1.Ispisi();
-        racun1.Uplati(500.00);
-        racun1.Isplati(250.00);
-        racun1.Ispisi();
+        var tekuci = new TekuciRacun(1000, 100.00);
+        var ziro = new ZiroRacun(2000, -50.00);
 
-        var racun2 = new BankovniRacun(2345, vrsta: "žiro", stanje: 300.00);
-        //racun2.Kreiraj(2345, vrsta: "žiro", stanje: 300.00);
-        racun2.Ispisi();
-        racun2.Isplati(400.00);
-        racun2.Ispisi();
+        var racuni = new ArrayList();
+        racuni.Add(tekuci);
+        racuni.Add(ziro);
 
-        var osoba1 = new Osoba
+        var kartica = new KreditnaKartica("1111 2222 3333 4444 5555", 150.00);
+
+        var mBankarstvo = new List<IBezgotovinskoPlacanje>() { tekuci, ziro, kartica };
+        foreach (var mRacun in mBankarstvo)
         {
-            Ime = "Pero",
-            Prezime = "Perić",
-            DatumRodjenja = new DateTime(1994, 01, 01)
-        };
+            mRacun.Print();
+        }
 
-        Console.WriteLine(Osoba.RedniBroj);
-        Console.WriteLine(osoba1.Starost);
-        //osoba1.Racun.Ispisi();
+        var dzep = new Novcanik();
+        dzep.Uplati(50.00);
 
-        Osoba osoba2 = new()
+        var kucneFinancije = new List<ISredstvoPlacanja>() { dzep, tekuci, ziro, kartica };
+        foreach (var stavke in kucneFinancije)
         {
-            Ime = "Mara",
-            Prezime = "Marić",
-            DatumRodjenja = new DateTime(1996, 01, 07)
-        };
+            stavke.Print();
+        }
 
-        Console.WriteLine(Osoba.RedniBroj);
-        Console.WriteLine(osoba2.Starost);
+        WorkWithNotifications();
+    }
 
-        var car = new Car();
-        car.Brand = "Ford";
-        car.Model = "Fiesta";
+    private static void WorkWithNotifications()
+    {
+        var notifications = new List<INotification>
+            {
+                new EmailNotification
+                {
+                    Message = "Your order has shipped!",
+                    EmailAddress ="pero.peric@algebra.hr"
+                },
+                new SmsNotification
+                {
+                    Message = "Your code is 123456",
+                    PhoneNumber = "+385 99 123456"
+                }
+            };
 
-        Console.Clear();
-
-        var car_ = new Car()
+        foreach (var notification in notifications)
         {
-            Brand = "Fiat",
-            Model = "Doblo",
-            NumberOfDoors = 5
-        };
-
-        Console.WriteLine(car.GetCarInfo());
-
-        var bicycle = new Bicycle()
-        {
-            Brand = "Cube",
-            Model = "Curve",
-            HasBell = true
-        };
-
-        Console.WriteLine(bicycle.GetBicycleInfo());
-
-        var animals = new List<Animal>();
-
-        animals.Add(new Dog() { Name = "Rex" });
-        animals.Add(new Cat() { Name = "Matilda" });
-        animals.Add(new Dog() { Name = "Boo" });
-
-        foreach (var animal in animals)
-        {
-            Console.WriteLine($"{animal.Name} says: {animal.Speak()}");
+            notification.Send();
         }
     }
 }

@@ -1,61 +1,50 @@
-﻿namespace NoBeard.Learn.DotNet.ConsoleApp.Models;
+﻿using NoBeard.Learn.DotNet.ConsoleApp.Interfaces;
 
-internal class BankovniRacun
+namespace NoBeard.Learn.DotNet.ConsoleApp.Models;
+
+public abstract class BankovniRacun : ISredstvoPlacanja, IBezgotovinskoPlacanje
 {
-    private long _broj;
-    private double _stanje;
-    private string _vrsta;
+    public long Broj { get; set; }
 
-    public BankovniRacun()
-    {
-        this._stanje = 0.0;
-        _vrsta = "tekući";
-    }
+    public double Stanje { get; set; }
 
-    public BankovniRacun(long broj, double stanje = 0.0, string vrsta = "tekući")
-    {
-        Kreiraj(broj, stanje, vrsta);
-    }
+    public string Vrsta { get; set; }
 
-    public void Kreiraj(long broj, double stanje = 0.0, string vrsta = "tekući")
+    protected string Nasljedno { get; set; } = string.Empty;
+
+    public BankovniRacun(long broj, string vrsta, double stanje)
     {
-        _broj = broj;
-        _stanje = stanje;
-        _vrsta = vrsta;
+        Nasljedno = string.Empty;
+
+        Broj = broj;
+        Stanje = stanje;
+        Vrsta = vrsta;
     }
 
     public void Uplati(double iznos)
     {
-        _stanje += iznos;
+        Stanje += iznos;
     }
 
     public void Isplati(double iznos)
     {
-        if (_stanje - iznos >= 0)
-        {
-            _stanje -= iznos;
-        }
-        else
-        {
-            _stanje = 0;
-            Console.Beep();
-        }
+        Stanje -= iznos;
 
-        //_stanje -= iznos;
+        if (Stanje < 0) Console.Beep();
     }
 
-    public void Ispisi()
+    public abstract void IzvrsiProcesPlacanja();
+
+    public void IspisiPodatke()
     {
-        //Console.Clear();
+        Console.WriteLine($"Broj računa: {Broj}");
+        Console.WriteLine($"Vrsta računa: {Vrsta}");
 
-        Console.WriteLine($"Broj računa: {_broj}");
-        Console.WriteLine($"Vrsta računa: {_vrsta}");
-
-        if (_stanje > 0)
+        if (Stanje > 0)
         {
             Console.ForegroundColor = ConsoleColor.Green;
         }
-        else if (_stanje < 0)
+        else if (Stanje < 0)
         {
             Console.ForegroundColor = ConsoleColor.Red;
         }
@@ -64,9 +53,31 @@ internal class BankovniRacun
             Console.ForegroundColor = ConsoleColor.Yellow;
         }
 
-        Console.WriteLine("Stanje računa: {0:0.00} €", _stanje);
+        Console.WriteLine("Stanje računa: {0:0.00} EUR", Stanje);
 
-        Console.ResetColor();   
+        Console.ResetColor();
     }
 
+    public void Print()
+    {
+        Console.WriteLine($"Broj računa: {Broj}");
+        Console.WriteLine($"Vrsta računa: {Vrsta}");
+
+        if (Stanje > 0)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+        }
+        else if (Stanje < 0)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+        }
+        else
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+        }
+
+        Console.WriteLine("Stanje računa: {0:0.00} EUR", Stanje);
+
+        Console.ResetColor();
+    }
 }
