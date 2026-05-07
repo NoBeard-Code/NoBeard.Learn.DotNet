@@ -45,9 +45,10 @@ namespace NoBeard.Learn.DotNet.ConsoleApp
 
         }
 
-        private static void Obrada_FazaZavrsena(object? sender, byte i)
+        private static void Obrada_FazaZavrsena(object? sender, FazaEventArgs faza)
         {
-            Console.WriteLine("Faza {0} završena.", i);
+            Console.WriteLine("Faza {0} završena.", faza.RedniBroj);
+            Console.WriteLine("Vrijeme početka: {0}", faza.VrijemePocetka);
         }
 
         private static void Obrada_ProcesZavrsen(bool rezultat)
