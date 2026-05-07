@@ -4,11 +4,12 @@ namespace NoBeard.Learn.DotNet.ConsoleApp
 {
     internal class Program : IDisposable
     {
-        private static Racun racun = new Racun();
+        //private static Racun racun = new Racun();
 
         static void Main(string[] args)
         {
-            //var racun = new Racun();
+            /*
+            var racun = new Racun();
 
             racun.StanjePromjenjeno += Racun_StanjePromjenjeno;
             //racun.StanjePromjenjeno += Racun_StanjePromjenjeno;
@@ -30,6 +31,28 @@ namespace NoBeard.Learn.DotNet.ConsoleApp
             //racun = null;
 
             //racun.Uplati(500000.00);
+            */
+
+            var obrada = new ObradaPodataka();
+
+            obrada.ProcesZavrsen += Obrada_ProcesZavrsen;
+            obrada.FazaZavrsena += Obrada_FazaZavrsena;
+
+            obrada.PokreniProces();
+
+            obrada.ProcesZavrsen -= Obrada_ProcesZavrsen;
+            obrada.FazaZavrsena -= Obrada_FazaZavrsena;
+
+        }
+
+        private static void Obrada_FazaZavrsena(object? sender, byte i)
+        {
+            Console.WriteLine("Faza {0} završena.", i);
+        }
+
+        private static void Obrada_ProcesZavrsen(bool rezultat)
+        {
+            Console.WriteLine("Proces je završen, uspješno: {0}.", rezultat);
         }
 
         private static void Racun_StanjePromjenjeno(object? sender, double e)
@@ -39,10 +62,10 @@ namespace NoBeard.Learn.DotNet.ConsoleApp
 
         public void Dispose()
         {
-            if (racun != null)
-            {
-                racun.StanjePromjenjeno -= Racun_StanjePromjenjeno;
-            }
+            //if (racun != null)
+            //{
+            //    racun.StanjePromjenjeno -= Racun_StanjePromjenjeno;
+            //}
         }
     }
 }
