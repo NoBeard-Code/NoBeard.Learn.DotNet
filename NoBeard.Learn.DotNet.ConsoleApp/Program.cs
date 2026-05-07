@@ -33,6 +33,7 @@ namespace NoBeard.Learn.DotNet.ConsoleApp
             //racun.Uplati(500000.00);
             */
 
+            /*
             var obrada = new ObradaPodataka();
 
             obrada.ProcesZavrsen += Obrada_ProcesZavrsen;
@@ -42,7 +43,10 @@ namespace NoBeard.Learn.DotNet.ConsoleApp
 
             obrada.ProcesZavrsen -= Obrada_ProcesZavrsen;
             obrada.FazaZavrsena -= Obrada_FazaZavrsena;
+            */
 
+            var intersection = new Intersection();
+            intersection.Run();
         }
 
         private static void Obrada_FazaZavrsena(object? sender, FazaEventArgs faza)
