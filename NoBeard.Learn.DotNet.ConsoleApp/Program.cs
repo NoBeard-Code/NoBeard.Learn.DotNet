@@ -43,3 +43,31 @@ var broj = delegat(string.Empty);
 
 
 
+var osobe = new List<Osoba>
+{
+    new Osoba(1, "Pero"),
+    new Osoba(2, "Marko"),
+    new Osoba(3, "Maja")
+};
+
+osobe.ForEach((osoba) => { Console.WriteLine(osoba.Sifra); });
+osobe.ForEach(_ => Console.WriteLine(_.Sifra));
+
+var projekcija = osobe.Select(x => { return x.Ime; });
+
+Console.ReadLine();
+
+public class Osoba
+{
+    public int Sifra { get; set; }
+
+    public string Ime { get; init; }
+
+    public Osoba(int sifra, string ime)
+    {
+        Sifra = sifra;
+        Ime = ime;
+    }
+}
+
+
