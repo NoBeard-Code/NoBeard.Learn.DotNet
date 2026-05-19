@@ -7,6 +7,10 @@ var racun = new Racun();
 racun.Sifra = 1000;
 racun.Naziv = "Tekući";
 
+//var json = racun.Serialize();
+//racun.Export("racun.json");
+racun.Export();
+
 SerijalizirajRacun(racun);
 
 var rn1 = DeserijalizirajRacun();
