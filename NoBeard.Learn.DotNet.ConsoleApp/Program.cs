@@ -1,8 +1,10 @@
 ﻿using NoBeard.Learn.DotNet.ConsoleApp.Models;
 using System.Text.Json;
+using System.Xml.Serialization;
 
 // JSON serijalizacija
 
+/*
 var racun = new Racun();
 racun.Sifra = 1000;
 racun.Naziv = "Tekući";
@@ -15,6 +17,30 @@ SerijalizirajRacun(racun);
 
 var rn1 = DeserijalizirajRacun();
 Console.WriteLine(rn1?.Sifra);
+
+*/
+
+// XML serijalizacija
+
+var polaznik = new Polaznik { Sifra = 100, Ime = "Pero" };
+
+var serializer = new XmlSerializer(typeof(Polaznik));
+
+//using var writer = new StringWriter();
+var writer = new StringWriter();
+serializer.Serialize(writer, polaznik);
+string xml = writer.ToString();
+writer.Close();
+
+File.WriteAllText("polaznik.xml", xml);
+
+xml = File.ReadAllText("polaznik.xml");
+
+using var reader = new StringReader(xml);
+Polaznik polaznik2 = (Polaznik)serializer.Deserialize(reader)!;
+//Polaznik polaznik2 = serializer.Deserialize(reader) as Polaznik;
+
+Console.ReadLine();
 
 static void SerijalizirajRacun(Racun racun)
 {
