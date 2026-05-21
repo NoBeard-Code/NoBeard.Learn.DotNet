@@ -1,82 +1,17 @@
 ﻿using NoBeard.Learn.DotNet.ConsoleApp.Models;
-using System.Text.Json;
-using System.Xml.Serialization;
 
-// JSON serijalizacija
+var polaznik1 = new Polaznik { Sifra = 100, Ime = "Pero" };
+Console.WriteLine(polaznik1);
 
-/*
-var racun = new Racun();
-racun.Sifra = 1000;
-racun.Naziv = "Tekući";
+var tip = polaznik1.GetType();
+var kod1 = polaznik1.GetHashCode();
 
-//var json = racun.Serialize();
-//racun.Export("racun.json");
-racun.Export();
+var polaznik2 = new Polaznik { Sifra = 100, Ime = "Pero" };
 
-SerijalizirajRacun(racun);
+var x = (polaznik1 == polaznik2);
+var y = (polaznik1.Equals(polaznik2));
 
-var rn1 = DeserijalizirajRacun();
-Console.WriteLine(rn1?.Sifra);
-
-*/
-
-// XML serijalizacija
-
-var polaznik = new Polaznik { Sifra = 100, Ime = "Pero" };
-
-var serializer = new XmlSerializer(typeof(Polaznik));
-
-//using var writer = new StringWriter();
-var writer = new StringWriter();
-serializer.Serialize(writer, polaznik);
-string xml = writer.ToString();
-writer.Close();
-
-File.WriteAllText("polaznik.xml", xml);
-
-xml = File.ReadAllText("polaznik.xml");
-
-using var reader = new StringReader(xml);
-Polaznik polaznik2 = (Polaznik)serializer.Deserialize(reader)!;
-//Polaznik polaznik2 = serializer.Deserialize(reader) as Polaznik;
+var kod2 = polaznik2.GetHashCode();
+var z = (kod1 == kod2);
 
 Console.ReadLine();
-
-static void SerijalizirajRacun(Racun racun)
-{
-    var options = new JsonSerializerOptions()
-    {
-        WriteIndented = true,
-    };
-
-    try
-    {
-        var json = JsonSerializer.Serialize(racun, options);
-        File.WriteAllText("racun.json", json);
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine(ex.Message);
-    }
-}
-
-static Racun? DeserijalizirajRacun()
-{
-    string? json = null;
-
-    try
-    {
-        json = File.ReadAllText("racun.json");
-        return JsonSerializer.Deserialize<Racun>(json);
-    }
-    catch (FileNotFoundException)
-    {
-        Console.WriteLine("Datoteka nije nađena!");
-        return null;
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine(ex.Message);
-        return null;
-    }
-}
