@@ -1,7 +1,11 @@
 ﻿using NoBeard.Learn.DotNet.ConsoleApp.Models;
 using System.Collections;
 
+// 1) izvor podataka
+
 string[] gradovi = { "Varaždin", "Zagreb", "Osijek", "Vinkovci", "Slavonski Brod", "Split", "Sisak" };
+
+// 2) izgradnja upita:
 
 // Query sintaksa upita
 
@@ -23,10 +27,18 @@ var query2 = gradovi
 //    }
 //}
 
+// 3) izvršavanje upita
+
 foreach (var grad in query)
 {
     Console.WriteLine(grad);
 }
+
+List<int> brojevi = new() { 1, 2, 3, 5, 6, 8, 9, 10, 11, 12 };
+
+IEnumerable<int> rez = from broj in brojevi
+                       where broj > 3 && broj < 10
+                       select broj;
 
 // enumerator
 
@@ -52,8 +64,8 @@ artikli.ForEach(x => Console.WriteLine(x));
 // SQL/Query sintaksa
 
 var upit = (from artikl in artikli
-           where artikl.StanjeNaSkladistu > 0
-           select new { artikl.Sifra, artikl.Naziv }).ToList();
+            where artikl.StanjeNaSkladistu > 0
+            select new { artikl.Sifra, artikl.Naziv }).ToList(); // ToArray();
 
 // selector/method sintaksa
 
@@ -96,6 +108,81 @@ var rezultat2 = from s in mjesovito.OfType<Artikl>()
 //var rezultat3 = from s in mjesovito.ToArray()
 //                where s is Artikl
 //                select s;
+
+var osnovniUpit = from artikl in artikli
+                  where artikl.StanjeNaSkladistu > 0 && artikl.StanjeNaSkladistu <= int.MaxValue
+                  select artikl;
+
+var rezultirajuciUpit = osnovniUpit
+    .OrderBy(x => x.Naziv)
+    .Take(5);
+// .Skip(5)
+
+foreach (var stavka in rezultirajuciUpit)
+    Console.WriteLine(stavka);
+
+// pozicijski operatori
+
+var ima = osnovniUpit.ElementAt(0);
+var nema = osnovniUpit.ElementAtOrDefault(0);
+var prvi = osnovniUpit.First();
+var zadnji = osnovniUpit.Last();
+
+var provjera = rezultirajuciUpit.SequenceEqual(osnovniUpit);
+
+// kvantifikatorski operatori
+
+if (artikli.Any(_ => _.Naziv == "Vino"))
+{
+    Console.WriteLine("Zabava može početi!");
+}
+    
+if (osnovniUpit.All(_ => _.StanjeNaSkladistu > 0))
+{
+    Console.WriteLine("Inventura može početi!");
+}
+
+//if (rezultirajuciUpit.Contains(new Artikl() { Sifra = 330, Naziv = "Mlijeko", Barkod = 43243243, StanjeNaSkladistu = 0 }))
+if (!rezultirajuciUpit.Contains(artikli.ElementAt(3)))
+{
+    Console.WriteLine("Naručiti mlijeko!");
+}
+
+// filtriranje i projekcija:
+
+var filtrirano = from artikl in artikli
+                 where artikl.StanjeNaSkladistu > 0
+                 select new { artikl.Barkod, artikl.Naziv };
+
+filtrirano = artikli
+    .Where(artikl => artikl.StanjeNaSkladistu > 0)
+    .Select(x => new { x.Barkod, x.Naziv });
+
+// sortiranje:
+
+var abecedno = from a in artikli
+               orderby a.Naziv
+               select a;
+
+abecedno = artikli.OrderBy(_ => _.Naziv);
+
+var abecednoSilazno = from a in artikli
+                      orderby a.Naziv descending
+                      select a;
+
+abecednoSilazno = artikli.OrderByDescending(_ => _.Naziv);
+
+abecedno = from a in artikli
+           orderby a.StanjeNaSkladistu, a.Naziv
+           select a;
+
+abecedno = artikli.OrderBy(a => a.StanjeNaSkladistu).ThenBy(a => a.Naziv);
+
+abecedno = from a in artikli
+           orderby a.StanjeNaSkladistu, a.Naziv descending
+           select a;
+
+abecedno = artikli.OrderBy(a => a.StanjeNaSkladistu).ThenByDescending(a => a.Naziv);
 
 
 Console.ReadLine();
