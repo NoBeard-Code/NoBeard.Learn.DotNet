@@ -3,13 +3,13 @@ using System.Collections;
 
 string[] gradovi = { "Varaždin", "Zagreb", "Osijek", "Vinkovci", "Slavonski Brod", "Split", "Sisak" };
 
-// Query/SQL sintaksa upita
+// Query sintaksa upita
 
 var query = from grad in gradovi
             where grad.StartsWith("S")
             select grad;
 
-// Selector/metodna sintaksa upita
+// Selector sintaksa upita
 
 var query2 = gradovi
     .Where(grad => grad.StartsWith("S"));
@@ -28,10 +28,14 @@ foreach (var grad in query)
     Console.WriteLine(grad);
 }
 
+// enumerator
+
 var enumerator = query.GetEnumerator();
 enumerator.MoveNext();
 var _grad = enumerator.Current;
-//enumerator.Reset();
+//enumerator.Reset(); // baca grešku!!
+
+// projekcija rezultata
 
 var artikli = new List<Artikl>()
 {
@@ -73,6 +77,8 @@ var sortirano = from artikl in artikli
 var sortirano2 = artikli
     .OrderBy(x => x.Naziv)
     .ThenByDescending(x => x.Barkod);
+
+// OfType<T>
 
 var mjesovito = new ArrayList();
 mjesovito.Add(0);
