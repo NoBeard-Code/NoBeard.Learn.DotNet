@@ -184,5 +184,8 @@ abecedno = from a in artikli
 
 abecedno = artikli.OrderBy(a => a.StanjeNaSkladistu).ThenByDescending(a => a.Naziv);
 
+string recenica = "Što je danas lijepi sunčan dan!";
+string[] rijeci = recenica.Split(' ');
+var rez1 = rijeci.Count(_ => _.Contains("je"));
 
 Console.ReadLine();
