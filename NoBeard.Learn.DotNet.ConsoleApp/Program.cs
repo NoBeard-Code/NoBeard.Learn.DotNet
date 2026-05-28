@@ -51,12 +51,12 @@ var _grad = enumerator.Current;
 
 var artikli = new List<Artikl>()
 {
-    new() { Sifra = 100, Naziv = "Kruh", Barkod = 2323123213, StanjeNaSkladistu = 0 },
-    new Artikl() { Sifra = 240, Naziv = "Pivo", Barkod = 213213213, StanjeNaSkladistu = 2 },
-    new Artikl() { Sifra = 550, Naziv = "Deodorans", Barkod = 343243242, StanjeNaSkladistu = 45 },
-    new Artikl() { Sifra = 330, Naziv = "Mlijeko", Barkod = 43243243, StanjeNaSkladistu = 0 }, 
-    new Artikl() { Sifra = 440, Naziv = "Sapun", Barkod = 5454545, StanjeNaSkladistu = 4 },
-    new Artikl() { Sifra = 556, Naziv = "Šampon", Barkod = 4334343, StanjeNaSkladistu = 10 }
+    new() { Sifra = 100, Naziv = "Kruh", Barkod = 2323123213, StanjeNaSkladistu = 0, Vrsta = 1 },
+    new Artikl() { Sifra = 240, Naziv = "Pivo", Barkod = 213213213, StanjeNaSkladistu = 2, Vrsta = 1 },
+    new Artikl() { Sifra = 550, Naziv = "Deodorans", Barkod = 343243242, StanjeNaSkladistu = 45, Vrsta = 2 },
+    new Artikl() { Sifra = 330, Naziv = "Mlijeko", Barkod = 43243243, StanjeNaSkladistu = 0, Vrsta = 1 }, 
+    new Artikl() { Sifra = 440, Naziv = "Sapun", Barkod = 5454545, StanjeNaSkladistu = 4, Vrsta = 2 },
+    new Artikl() { Sifra = 556, Naziv = "Šampon", Barkod = 4334343, StanjeNaSkladistu = 10, Vrsta = 2 }
 };
 
 artikli.ForEach(x => Console.WriteLine(x));
@@ -187,5 +187,105 @@ abecedno = artikli.OrderBy(a => a.StanjeNaSkladistu).ThenByDescending(a => a.Naz
 string recenica = "Što je danas lijepi sunčan dan!";
 string[] rijeci = recenica.Split(' ');
 var rez1 = rijeci.Count(_ => _.Contains("je"));
+
+// grupiranje
+
+var grupirano = from artikl in artikli
+                group artikl by artikl.Vrsta;
+
+grupirano = artikli.GroupBy(artikl => artikl.Vrsta);
+
+foreach (var grupa in grupirano)
+{
+    Console.WriteLine("Vrsta artikla: " + grupa.Key);
+
+    foreach (var clan in grupa)
+    {
+        Console.WriteLine($" - Šifra: {clan.Sifra}, Naziv: {clan.Naziv}");
+    }
+}
+
+//var gr1 = (from artikl in artikli
+//          group artikl by artikl.Vrsta).ToList();
+
+grupirano = artikli.ToLookup(artikl => artikl.Vrsta);
+
+// spajanje
+
+var voce1 = new List<string>()
+{
+    "Jabuka",
+    "Banana",
+    "Kruška",
+    "Šljiva"
+};
+
+var voce2 = new List<string>()
+{
+    "Naranča",
+    "Limun",
+    "Banana",
+    "Jabuka",
+    "Grejp"
+};
+
+var z = voce1.SequenceEqual(voce2);
+
+var podudarnosti = from niz1 in voce1
+                   join niz2 in voce2  // inner join
+                   on niz1 equals niz2
+                   select niz1;
+
+podudarnosti = voce1
+    .Join(voce2, niz1 => niz1, niz2 => niz2, (niz1, niz2) => niz1);
+
+foreach (var n in podudarnosti)
+    Console.WriteLine(n);
+
+var proizvodi1 = new List<Artikl>()
+{ 
+    new() { Sifra = 100, Naziv = "Kruh", Barkod = 2323123213, StanjeNaSkladistu = 0, Vrsta = 1 },
+    new Artikl() { Sifra = 240, Naziv = "Pivo", Barkod = 213213213, StanjeNaSkladistu = 2, Vrsta = 1 },
+    new Artikl() { Sifra = 440, Naziv = "Sapun", Barkod = 5454545, StanjeNaSkladistu = 4, Vrsta = 2 },
+    new Artikl() { Sifra = 556, Naziv = "Šampon", Barkod = 4334343, StanjeNaSkladistu = 10, Vrsta = 2 }
+};
+
+var proizvodi2 = new List<Artikl>()
+{
+    new() { Sifra = 100, Naziv = "Kruh", Barkod = 2323123213, StanjeNaSkladistu = 0, Vrsta = 1 },
+    new Artikl() { Sifra = 550, Naziv = "Deodorans", Barkod = 343243242, StanjeNaSkladistu = 45, Vrsta = 2 },
+    new Artikl() { Sifra = 330, Naziv = "Mlijeko", Barkod = 43243243, StanjeNaSkladistu = 0, Vrsta = 1 },
+    new Artikl() { Sifra = 440, Naziv = "Sapun", Barkod = 5454545, StanjeNaSkladistu = 4, Vrsta = 2 },
+};
+
+var match = from p1 in proizvodi1
+            join p2 in proizvodi2
+            on p1.Sifra equals p2.Sifra
+            select p1;
+
+match = proizvodi1.Join(proizvodi2, p1 => p1.Sifra, p2 => p2.Sifra, (p1, p2) => p1);
+
+var vrsteArtikala = new List<VrstaArtikla>()
+{
+    new VrstaArtikla() { Sifra = 1, Naziv = "Hrana" },
+    new VrstaArtikla() { Sifra = 2, Naziv = "Kozmetika" },
+    new VrstaArtikla() { Sifra = 3, Naziv = "Alat" },
+};
+
+var spoj = artikli.Join(
+    vrsteArtikala,
+    proizvod => proizvod.Vrsta,
+    vrsta => vrsta.Sifra,
+    (proizvod, vrsta) => new
+    {
+        proizvod.Sifra,
+        proizvod.Naziv,
+        Vrsta = vrsta.Naziv,
+        proizvod.Barkod,
+        proizvod.StanjeNaSkladistu
+    });
+
+foreach (var item in spoj)
+    Console.WriteLine(item);
 
 Console.ReadLine();
