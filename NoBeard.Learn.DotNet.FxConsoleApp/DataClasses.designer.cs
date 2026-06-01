@@ -39,7 +39,7 @@ namespace NoBeard.Learn.DotNet.FxConsoleApp
     #endregion
 		
 		public DataClassesDataContext() : 
-				base(global::NoBeard.Learn.DotNet.FxConsoleApp.Properties.Settings.Default.linq_to_sqlConnectionString, mappingSource)
+				base(global::NoBeard.Learn.DotNet.FxConsoleApp.Properties.Settings.Default.DbConnectionString, mappingSource)
 		{
 			OnCreated();
 		}

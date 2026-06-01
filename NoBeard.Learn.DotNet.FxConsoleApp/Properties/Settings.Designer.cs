@@ -28,9 +28,9 @@ namespace NoBeard.Learn.DotNet.FxConsoleApp.Properties {
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
         [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(localdb)\\mssqllocaldb;Initial Catalog=linq_to_sql;Integrated Securit" +
             "y=True;TrustServerCertificate=True")]
-        public string linq_to_sqlConnectionString {
+        public string DbConnectionString {
             get {
-                return ((string)(this["linq_to_sqlConnectionString"]));
+                return ((string)(this["DbConnectionString"]));
             }
         }
     }
