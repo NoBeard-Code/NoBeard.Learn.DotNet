@@ -1,5 +1,6 @@
 ﻿using NoBeard.Learn.DotNet.ConsoleApp.Models;
 using System.Collections;
+using System.Security.Cryptography;
 
 // 1) izvor podataka
 
@@ -56,7 +57,8 @@ var artikli = new List<Artikl>()
     new Artikl() { Sifra = 550, Naziv = "Deodorans", Barkod = 343243242, StanjeNaSkladistu = 45, Vrsta = 2 },
     new Artikl() { Sifra = 330, Naziv = "Mlijeko", Barkod = 43243243, StanjeNaSkladistu = 0, Vrsta = 1 }, 
     new Artikl() { Sifra = 440, Naziv = "Sapun", Barkod = 5454545, StanjeNaSkladistu = 4, Vrsta = 2 },
-    new Artikl() { Sifra = 556, Naziv = "Šampon", Barkod = 4334343, StanjeNaSkladistu = 10, Vrsta = 2 }
+    new Artikl() { Sifra = 556, Naziv = "Šampon", Barkod = 4334343, StanjeNaSkladistu = 10, Vrsta = 2 },
+    new Artikl() { Sifra = 444, Naziv = "Hladnjak", Barkod = 54545, StanjeNaSkladistu = 1, Vrsta = 4 }
 };
 
 artikli.ForEach(x => Console.WriteLine(x));
@@ -210,6 +212,19 @@ foreach (var grupa in grupirano)
 
 grupirano = artikli.ToLookup(artikl => artikl.Vrsta);
 
+// delegat:
+
+Func<Artikl, bool> hranaNaZalihi = delegate (Artikl artikl)
+{
+    return artikl.StanjeNaSkladistu > 0 && artikl.Vrsta == 1;
+};
+
+var delUpit = from artikl in artikli
+              //where artikl.StanjeNaSkladistu > 0
+              //where artikl.Vrsta == 1
+              where hranaNaZalihi(artikl)
+              select artikl;
+
 // spajanje
 
 var voce1 = new List<string>()
@@ -287,5 +302,67 @@ var spoj = artikli.Join(
 
 foreach (var item in spoj)
     Console.WriteLine(item);
+
+// SELECT *
+// FROM Artikl a
+// LEFT OUTER JOIN VrstaArtikla v
+//  ON a.Vrsta = v.Sifra
+
+Console.WriteLine();
+Console.WriteLine("LEFT OUTER JOIN");
+
+var leftOuterJoin = artikli.GroupJoin(
+    vrsteArtikala,
+    proizvod => proizvod.Vrsta,
+    vrsta => vrsta.Sifra,
+    (proizvod, vrste) => new
+    {
+        proizvod,
+        vrste
+    });
+
+// flattening, spljoštiti
+
+var spljosteno = leftOuterJoin.SelectMany(
+    x => x.vrste.DefaultIfEmpty(),
+    (x, vrsta) => new
+    {
+        x.proizvod.Sifra,
+        x.proizvod.Naziv,
+        Vrsta = vrsta?.Naziv ?? "(nema podataka)",
+        x.proizvod.Barkod,
+        x.proizvod.StanjeNaSkladistu
+    });
+
+spljosteno =
+    from proizvod in artikli
+    join vrsta in vrsteArtikala
+    on proizvod.Vrsta equals vrsta.Sifra
+    into grupa
+    from x in grupa.DefaultIfEmpty()
+    select new
+    {
+        proizvod.Sifra,
+        proizvod.Naziv,
+        Vrsta = x?.Naziv ?? "(nema podataka)",
+        proizvod.Barkod,
+        proizvod.StanjeNaSkladistu
+    };
+
+foreach (var item in spljosteno)
+    Console.WriteLine(item);
+
+// agregatni operatori
+
+var pobrojavanje = artikli.Count();
+var zbroj = artikli.Sum(x => x.StanjeNaSkladistu);
+var prosjek = artikli.Average(x => x.StanjeNaSkladistu);
+var maksimum = artikli.Max(x => x.StanjeNaSkladistu);
+var minimum = artikli.Min(x => x.StanjeNaSkladistu);
+
+var agregacija = artikli.Aggregate<Artikl, string>(
+    "Nazivi artikala: ", // početna vrijednost
+    (trenutni, slijedeci) => trenutni += slijedeci + ", "); // funkcija agregacije
+Console.WriteLine(agregacija);
 
 Console.ReadLine();
